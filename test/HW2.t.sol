@@ -10,6 +10,7 @@ contract HW2Test is Test {
     // 部署到 Sepolia 上並在 Chainlink 上 Approve 過的合約
     VRFv2Consumer consumer = VRFv2Consumer(0x5aF35e00075e1Db601B25Cb8f273601e30CF304F);
     address user = makeAddr("alice");
+    address user2 = makeAddr("bob");
 
     function setUp() public {
         uint256 forkId = vm.createFork(
@@ -40,6 +41,15 @@ contract HW2Test is Test {
             keccak256(bytes(tokenURI1)),
             keccak256(bytes("https://raw.githubusercontent.com/edward821220/NFT721/main/src/metadata/hw2-hide.json"))
         );
+
+        vm.stopPrank();
+
+        // 如果不是擁有者就不能開啟盲盒
+        vm.prank(user2);
+        vm.expectRevert("You are not the owner of this token!");
+        hw2.openToken(random1);
+
+        vm.startPrank(user);
 
         // 執行打開盲盒的 function 後檢查是否是正確的 tokenURI
         hw2.openToken(random1);

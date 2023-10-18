@@ -23,7 +23,7 @@ contract HW2 is ERC721 {
     }
 
     function openToken(uint256 tokenId) public {
-        require(ownerOf(tokenId) == msg.sender, "You are not the owner of this token.");
+        require(ownerOf(tokenId) == msg.sender, "You are not the owner of this token!");
         openTokens[tokenId] = true;
     }
 
