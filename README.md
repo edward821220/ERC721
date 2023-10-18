@@ -18,4 +18,8 @@ $ forge install
 $ forge test --mc HW1Test -vvvvv
 ```
 
-PS. HW2 因為使用 ChainLink 產生隨機數，所以沒有寫測試
+4.
+
+```shell
+$ forge test --mc HW2Test -vvvvv
+```

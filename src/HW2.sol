@@ -5,13 +5,13 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./Chainlink.sol";
 
 contract HW2 is ERC721 {
-    uint256 totalSupply;
+    uint256 public totalSupply;
     mapping(uint256 => bool) openTokens;
-    VRFv2Consumer consumer;
+    // 部署到 Sepolia 上並在 Chainlink 上 Approve 過的合約
+    VRFv2Consumer consumer = VRFv2Consumer(0x5aF35e00075e1Db601B25Cb8f273601e30CF304F);
 
     constructor() ERC721("HW2Token", "HW2") {
         totalSupply = 500;
-        consumer = new VRFv2Consumer(6100);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
@@ -28,7 +28,7 @@ contract HW2 is ERC721 {
     }
 
     function mint(address to) public {
-        require(totalSupply > 0, "No tokens left.");
+        require(totalSupply > 0, "No tokens left!");
         totalSupply--;
         // 產生新的隨機數
         consumer.requestRandomWords();
