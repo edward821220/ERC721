@@ -17,7 +17,7 @@ contract HW1 is ERC721 {
     // 3. The NFT image is always the same.
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         _requireOwned(tokenId);
-        return '{ "image": "https://imgur.com/IBDi02f" }';
+        return "https://raw.githubusercontent.com/edward821220/NFT721/main/src/metadata/hw1.json";
     }
 }
 
