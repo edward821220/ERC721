@@ -60,7 +60,7 @@ contract VRFv2Consumer is VRFConsumerBaseV2 {
         s_subscriptionId = subscriptionId;
     }
 
-    function requestRandomWords() external {
+    function requestRandomWords() external onlyOwner {
         s_requestId =
             COORDINATOR.requestRandomWords(keyHash, s_subscriptionId, requestConfirmations, callbackGasLimit, numWords);
     }
