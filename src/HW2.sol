@@ -7,11 +7,13 @@ import "./Chainlink.sol";
 contract HW2 is ERC721 {
     uint256 public totalSupply;
     mapping(uint256 => bool) openTokens;
+    uint256 public createdTime;
     // 部署到 Sepolia 上並在 Chainlink 上 Approve 過的合約
     VRFv2Consumer consumer = VRFv2Consumer(0x5aF35e00075e1Db601B25Cb8f273601e30CF304F);
 
     constructor() ERC721("HW2Token", "HW2") {
         totalSupply = 500;
+        createdTime = block.timestamp;
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
@@ -24,6 +26,7 @@ contract HW2 is ERC721 {
 
     function openToken(uint256 tokenId) public {
         require(ownerOf(tokenId) == msg.sender, "You are not the owner of this token!");
+        require(block.timestamp - createdTime >= 30 days, "You need to wait more than 30 days!");
         openTokens[tokenId] = true;
     }
 

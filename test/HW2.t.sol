@@ -13,9 +13,7 @@ contract HW2Test is Test {
     address user2 = makeAddr("bob");
 
     function setUp() public {
-        uint256 forkId = vm.createFork(
-            "https://soft-tiniest-flower.ethereum-sepolia.discover.quiknode.pro/82c8473640e5def9bb007aef0253d95cdc3f7c09"
-        );
+        uint256 forkId = vm.createFork("https://eth-sepolia.g.alchemy.com/v2/cz7U-l3BDPzRUp-A-fe7afAZ5TJbdE5E");
         vm.selectFork(forkId);
         hw2 = new HW2();
     }
@@ -51,9 +49,15 @@ contract HW2Test is Test {
 
         vm.startPrank(user);
 
-        // 執行打開盲盒的 function 後檢查是否是正確的 tokenURI
+        // 如果發行 NFT 合約後沒超過 30 天就不能開啟盲盒
+        vm.expectRevert("You need to wait more than 30 days!");
+        hw2.openToken(random1);
+
+        // 正確執行打開盲盒的 function 後檢查是否是正確的 tokenURI
+        vm.warp(hw2.createdTime() + 30 days);
         hw2.openToken(random1);
         hw2.openToken(random2);
+
         assertEq(tokenURI1, tokenURI2);
         string memory openedTokenURI1 = hw2.tokenURI(random1);
         assertEq(
